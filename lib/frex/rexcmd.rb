@@ -11,8 +11,10 @@
 
 ## ---------------------------------------------------------------------
 
-module REX
+require 'getoptlong'
+module Frex
 
+class Cmd
 OPTIONS  =  <<-EOT
 
 o -o --output-file <outfile>  file name of output [<filename>.rb]
@@ -27,24 +29,13 @@ o -  --copyright        - print copyright and quit
 
 EOT
 
-end
-
-## ---------------------------------------------------------------------
-
-require 'getoptlong'
-require 'rex/generator'
-require 'rex/info'
-
-## ---------------------------------------------------------------------
-
-class RexCmd
   def run
     @status  =  1
     usage 'no grammar file given'    if ARGV.empty?
     usage 'too many grammar files given'    if ARGV.size > 1
     filename  =  ARGV[0]
 
-    rex  =  Rex::Generator.new(@opt)
+    rex  =  Frex::Generator.new(@opt)
     begin
       rex.grammar_file  =  filename
       rex.read_grammar
@@ -56,7 +47,7 @@ class RexCmd
       rex.write_scanner
       @status  =  0
 
-    rescue Rex::ParseError, Errno::ENOENT
+    rescue Frex::ParseError, Errno::ENOENT
       msg  =  $!.to_s
       unless /\A\d/ === msg
         msg[0,0]  =  ' '
@@ -72,7 +63,7 @@ class RexCmd
   def initialize
     @status  =  2
     @cmd  =  File.basename($0, ".rb")
-    tmp  =  REX::OPTIONS.collect do |line|
+    tmp  =  OPTIONS.collect do |line|
         next if /\A\s*\z/ === line
         disp, sopt, lopt, takearg, doc  =  line.strip.split(/\s+/, 5)
         a  =  []
@@ -100,12 +91,12 @@ class RexCmd
     usage    if @opt['--help']
 
     if @opt['--version']
-      puts "#{@cmd} version #{Rex::Version}"
+      puts "#{@cmd} version #{Frex::Version}"
       exit 0
     end
     if @opt['--copyright']
-      puts "#{@cmd} version #{Rex::Version}"
-      puts "#{Rex::Copyright} <#{Rex::Mailto}>"
+      puts "#{@cmd} version #{Frex::Version}"
+      puts "#{Frex::Copyright} <#{Frex::Mailto}>"
       exit 0
     end
   end
@@ -118,7 +109,7 @@ Usage: #{@cmd} [options] <grammar file>
 Options:
     EOT
 
-    REX::OPTIONS.each do |line|
+    OPTIONS.each do |line|
       next if line.strip.empty?
       if /\A\s*\z/ === line
         f.puts
@@ -140,5 +131,6 @@ Options:
 
     exit @status
   end
+end
 end
 

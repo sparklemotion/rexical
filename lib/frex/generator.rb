@@ -8,7 +8,8 @@
 #   the GNU Lesser General Public License version 2 or later.
 #
 
-module Rex
+require 'strscan'
+module Frex
 
 ## ---------------------------------------------------------------------
   class ParseError < StandardError ; end
@@ -16,8 +17,6 @@ module Rex
 
 ## ---------------------------------------------------------------------
   class Generator
-    require 'strscan'
-    require 'rex/info'
 
 ## ---------------------------------------------------------------------
     attr_accessor :grammar_file
@@ -517,7 +516,7 @@ end ## module
 ## test
 
 if __FILE__ == $0
-  rex = Rex::Generator.new(nil)
+  rex = Frex::Generator.new(nil)
   rex.grammar_file = "sample.rex"
   rex.read_grammar
   rex.parse
