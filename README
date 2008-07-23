@@ -1,0 +1,26 @@
+About this archive
+==================
+
+  This archive is a multi-contents archive.
+  Some ruby program packages are included.
+
+
+Quick start
+-----------
+
+  Just type 3 commands.
+
+    $ ruby setup.rb config
+    $ ruby setup.rb setup
+    $ ruby setup.rb install
+
+More about installer (setup.rb)
+-------------------------------
+
+  Try command below:
+
+    $ ruby setup.rb --help
+
+  This shows details and which packages are included.
+
+

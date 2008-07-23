@@ -1,0 +1,215 @@
+
+= REX: Ruby Lex for Racc
+
+
+== About
+
+  Lexical Scanner Generator for Ruby, with Racc.
+
+
+== Usage
+
+  rex [options] grammarfile
+
+  -o  --output-file  filename   designated output filename.
+  -s  --stub                    append stub main for debug.
+  -i  --ignorecase              ignore char case
+  -C  --check-only              syntax check only.
+      --independent             independent mode.
+  -d  --debug                   print debug information
+  -h  --help                    print usage.
+      --version                 print version.
+      --copyright               print copyright.
+
+
+== Default Output Filename
+
+  It destinate from foo.rex  to foo.rex.rb.
+  This name is for a follow description.
+
+    require 'foo.rex' 
+
+
+== Grammar File Format
+
+  A definition is given in order of a header part, a rule part, 
+  and the footer part.  One or more sections are included in a rule part.
+  As for each section, the head of the sentence starts by the keyword.
+
+  Summary:
+
+    [Header Part]
+    "class" Foo
+    ["option"
+      [options] ]
+    ["inner"
+      [methods] ]
+    ["macro"
+      [macro-name  regular-expression] ]
+    "rule"
+      [start-state]  pattern  [actions]
+    "end"
+    [Footer Part]
+
+
+=== Grammar File Example
+
+    class Foo
+    macro
+      BLANK         \s+
+      DIGIT         \d+
+    rule
+      {BLANK}
+      {DIGIT}       { [:NUMBER, text.to_i] }
+      .             { [text, text] }
+    end
+
+
+== Header Part ( Optional )
+
+  All the contents described before the definition of a rule part are 
+  posted to head of the output file.
+
+
+== Footer Part ( Optional )
+
+  All the contents described after the definition of a rule part are 
+  posted to tail of the output file.
+
+
+== Rule Part
+
+  Rule part is from the line which begins from the "class" keyword 
+  to the line which begins from the "end" keyword.
+  The class name outputted after a keyword "class" is specified.
+  If embellished with a module name, it will become a class in a module.
+  The class which inherited Racc::Parser is generated.
+
+
+=== Rule Header Example
+
+    class Foo
+    class Bar::Foo
+
+
+== Option Section ( Optional )
+
+  "option" is start keyword.
+
+    "ignorecase"  when pattern match, ignore char case.
+    "stub"        append stub main for debug.
+    "independent" independent mode, for it is not inherited Racc.
+
+
+== Inner Section ( Optional )
+
+  "inner" is start keyword.
+  The contents defined here are defined by the inside of the class 
+  of the generated scanner.
+
+
+== Macro Section ( Optional )
+
+  "macro" is start keyword.
+  One regular expression is named.
+  A blank character (0x20) can be included by escaping by \ .
+
+
+=== Macro Section Example
+
+    DIGIT         \d+
+    IDENT         [a-zA-Z_][a-zA-Z0-9_]*
+    BLANK         [\ \t]+
+    REMIN         \/\*
+    REMOUT        \*\/
+
+
+== Rule Section
+
+  "rule" is start keyword.
+
+  [state]  pattern  [actions]
+
+
+=== state: Start State ( Optional )
+
+    A start state is expressed with the identifier which prefaces ":".
+    When the continuing alphabetic character is a capital letter, 
+    it will be in an exclusive start state.
+    When it is a small letter, it will be in an inclusive start state.
+    Initial value and default value of a start state is nil.
+
+
+=== pattern: String Pattern
+
+    The regular expression for specifying a character string.
+    The macro definition bundled with { } can be used for description 
+    of a regular expression.  A macro definition is used in order to use 
+    a regular expression including a blank.
+
+
+=== actions: Processing Actions ( Optional )
+
+    Action is performed when a pattern is suited.
+    The processing which creates a suitable token is defined.
+    The arrangement whose token has the second clause of classification 
+    and a value, or nil.
+    The following elements can be used in order to create a token.
+
+      lineno    Line number     ( Read Only )
+      text      Matched string  ( Read Only )
+      state     Start state     ( Read/Write )
+
+    Action is bundled with { }.  It is the block of Ruby.
+    Don't use the function to change the flow of control exceeding a block.
+    ( return, exit, next, break, ... )
+    If action is omitted, the character string which matched will be canceled 
+    and will progress to the next scan.
+
+
+=== Rule Part Example
+
+        {REMIN}                 { state = :REM ; [:REM_IN, text] }
+  :REM  {REMOUT}                { state = nil ; [:REM_OUT, text] }
+  :REM  (.+)(?={REMOUT})        { [:COMMENT, text] }
+        {BLANK}
+        -?{DIGIT}               { [:NUMBER, text.to_i] }
+        {WORD}                  { [:word, text] }
+        .                       { [text, text] }
+
+== Comment ( Optional )
+
+  From "#" to the end of the line becomes a comment in each line.
+
+
+== Usage for Generated Class
+
+=== scan_setup()
+
+    The event for initializing at the time of the execution start of a scanner.
+    It is redefined and used.
+
+
+=== scan_str( str )
+
+    Parse the string described by the defined grammar.
+    Token is stored in an inside.
+
+
+=== scan_file( filename )
+
+    Parse the file described by the defined grammar.
+    Token is stored in an inside.
+
+
+=== next_token
+
+    One token stored in the inside is taken out.
+    The last returns nil.
+
+
+== Notice
+
+  This specification is provisional and may be changed without a preliminary 
+  announcement.
+

@@ -1,0 +1,71 @@
+Rex README
+===========
+
+  Rex is a lexical scanner generator.
+  It is written in Ruby itself, and generates Ruby program.
+  It is designed for use with Racc.
+
+
+Requirement
+-----------
+
+  *  ruby version 1.8.x or later.
+
+
+Installation
+------------
+
+  Type this in the top directory of the extracted archive:
+
+    $ ruby setup.rb config
+    $ ruby setup.rb setup
+   ($ su)
+    # ruby setup.rb install
+
+  You can install Rex into your favorite directory by giving
+  options to setup.rb. e.g.
+  
+    $ ruby setup.rb config --prefix=/usr
+  
+  For details, try "ruby setup.rb --help".
+
+
+Testing Rex
+------------
+
+  Rex comes with simple demo. To compile this, on shell:
+
+      $ rex  sample1.rex  --stub
+      $ ruby sample1.rex.rb  sample1.c
+
+      $ rex  sample2.rex  --stub
+      $ ruby sample2.rex.rb  sample2.bas
+
+      $ racc calc3.racc
+      $ rex  calc3.rex
+      $ ruby calc3.tab.rb
+
+  For details of Rex, see documents placed under 'doc/'
+  and sample grammer files under 'sample/'.
+
+
+License
+-------
+
+  Rex is distributed under the terms of the GNU Lesser General
+  Public License version 2. Note that you do NOT need to follow
+  LGPL for your own parser (Rex outputs). You can provide those
+  files under any licenses you want.
+
+
+Bug Reports
+-----------
+
+  Any kind of bug reports are welcome.
+  If you find a bug of Rex, please email me. Your grammer file,
+  are helpful.
+
+
+                                                   ARIMA Yasuhiro
+                                         arima.yasuhiro@nifty.com
+                            http://raa.ruby-lang.org/project/rex/
