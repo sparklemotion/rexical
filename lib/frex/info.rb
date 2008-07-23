@@ -9,7 +9,7 @@
 #
 
 module Frex
-  VERSION   = '1.0.0'
+  VERSION   = '1.0.1'
   Copyright = 'Copyright (c) 2005-2006 ARIMA Yasuhiro'
   Mailto    = 'arima.yasuhiro@nifty.com'
 end
