@@ -1,6 +1,6 @@
 = Frex
 
-* http://meow.rubyforge.org/
+* http://github.com/aaronp/frex/tree/master
 
 == DESCRIPTION
 
