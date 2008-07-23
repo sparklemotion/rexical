@@ -6,6 +6,7 @@ README.ja
 README.rdoc
 Rakefile
 bin/frex
+frex.gemspec
 lib/frex.rb
 lib/frex/generator.rb
 lib/frex/info.rb
