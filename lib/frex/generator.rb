@@ -13,7 +13,7 @@ module Frex
 
 ## ---------------------------------------------------------------------
   class ParseError < StandardError ; end
-  class RexError < StandardError ; end
+  class FrexError < StandardError ; end
 
 ## ---------------------------------------------------------------------
   class Generator
@@ -128,7 +128,7 @@ module Frex
 ## ---------------------------------------------------------------------
     def read_grammar
       if !File.exist?(grammar_file)
-        raise  Rex::RexError, "can not file open: " + grammar_file
+        raise  Frex::FrexError, "can not file open: " + grammar_file
       end
       f = File.open(grammar_file, 'r')
       @grammar_lines = StringScanner.new(f.read)
@@ -391,7 +391,7 @@ REX_EOT
       flag = ""
       flag += "i"  if @opt['--ignorecase']
       ## header
-      f.printf REX_HEADER, Rex::Version, grammar_file
+      f.printf REX_HEADER, Frex::VERSION, grammar_file
 
       unless @opt['--independent']
         f.printf "require 'racc/parser'\n"
