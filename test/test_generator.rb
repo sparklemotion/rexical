@@ -21,7 +21,7 @@ class TestGenerator < Test::Unit::TestCase
       end
     }
     assert_match 'DO NOT MODIFY', comments.join
-    assert_equal '#++', comments.first
-    assert_equal '#--', comments.last
+    assert_equal '#--', comments.first
+    assert_equal '#++', comments.last
   end
 end

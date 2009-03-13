@@ -32,6 +32,7 @@ sample/simple.html
 sample/simple.xhtml
 sample/xhtmlparser.racc
 sample/xhtmlparser.rex
+test/assets/test.rex
 test/rex-20060125.rb
 test/rex-20060511.rb
-vendor/hoe.rb
+test/test_generator.rb
