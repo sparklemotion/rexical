@@ -125,16 +125,10 @@ module Rex
       raise ParseError, "parse error in add_rule:'#{st}'"
     end
 
-## ---------------------------------------------------------------------
     def read_grammar
-      if !File.exist?(grammar_file)
-        raise  Frex::FrexError, "can not file open: " + grammar_file
-      end
-      f = File.open(grammar_file, 'r')
-      @grammar_lines = StringScanner.new(f.read)
+      @grammar_lines = StringScanner.new File.read(grammar_file, 'r')
     end
 
-## ---------------------------------------------------------------------
     def next_line
       @lineno += 1
       @grammar_lines.scan(/[^\n]*\n/).chomp
@@ -142,7 +136,6 @@ module Rex
       nil
     end
 
-## ---------------------------------------------------------------------
     def parse
       state1  =  :HEAD
       state2  =  nil

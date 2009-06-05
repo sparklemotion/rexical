@@ -9,7 +9,7 @@ class TestGenerator < Test::Unit::TestCase
       "--independent" => true,
       "--output-file" => file
     )
-    rex.grammar_file = (File.join(File.dirname(__FILE__), 'assets', 'test.rex'))
+    rex.grammar_file = File.join File.dirname(__FILE__), 'assets', 'test.rex'
     rex.read_grammar
     rex.parse
     rex.write_scanner
@@ -23,5 +23,17 @@ class TestGenerator < Test::Unit::TestCase
     assert_match 'DO NOT MODIFY', comments.join
     assert_equal '#--', comments.first
     assert_equal '#++', comments.last
+  end
+
+  def test_read_non_existent_file
+    file = File.join(Dir::tmpdir, 'out.rb')
+    rex = Rex::Generator.new(
+      "--independent" => true,
+      "--output-file" => file
+    )
+    rex.grammar_file = 'non_existent_file'
+    assert_raises Errno::ENOENT do
+      rex.read_grammar
+    end
   end
 end
