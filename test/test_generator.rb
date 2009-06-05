@@ -33,6 +33,25 @@ class TestGenerator < Test::Unit::TestCase
     end
   end
 
+  def test_scanner_inherits
+    rex = Rex::Generator.new(
+      "--independent" => true
+    )
+    rex.grammar_lines = StringScanner.new %q{
+class Calculator < Bar
+rule
+  \d+       { [:NUMBER, text.to_i] }
+  \s+       { [:S, text] }
+end
+    }
+
+    rex.parse
+
+    output = StringIO.new
+    rex.write_scanner output
+    assert_match 'Calculator < Bar', output.string
+  end
+
   def test_simple_scanner
     rex = Rex::Generator.new(
       "--independent" => true
@@ -46,6 +65,7 @@ end
     }
 
     rex.parse
+
     output = StringIO.new
     rex.write_scanner output
 
