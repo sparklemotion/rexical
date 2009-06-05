@@ -13,7 +13,6 @@ module Rex
 
 ## ---------------------------------------------------------------------
   class ParseError < StandardError ; end
-  class RexError < StandardError ; end
 
 ## ---------------------------------------------------------------------
   class Generator
