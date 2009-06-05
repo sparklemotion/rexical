@@ -126,7 +126,7 @@ module Rex
     end
 
     def read_grammar
-      @grammar_lines = StringScanner.new File.read(grammar_file, 'r')
+      @grammar_lines = StringScanner.new File.read(grammar_file)
     end
 
     def next_line
