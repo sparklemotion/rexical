@@ -100,6 +100,80 @@ end
                   [:NUMBER, 10]], calc
   end
 
+  def test_simple_scanner_with_macros
+    rex = Rex::Generator.new(
+      "--independent" => true
+    )
+    rex.grammar_lines = StringScanner.new %q{
+class Calculator
+macro
+  digit     \d+
+rule
+  {digit}       { [:NUMBER, text.to_i] }
+  \s+       { [:S, text] }
+end
+    }
+
+    rex.parse
+
+    output = StringIO.new
+    rex.write_scanner output
+
+    m = Module.new
+    m.module_eval output.string
+    calc = m::Calculator.new
+    calc.scan_evaluate('1 2 10')
+
+    assert_tokens [[:NUMBER, 1],
+                  [:S, ' '],
+                  [:NUMBER, 2],
+                  [:S, ' '],
+                  [:NUMBER, 10]], calc
+  end
+
+  def test_nested_macros
+    rex = Rex::Generator.new(
+      "--independent" => true
+    )
+    rex.grammar_lines = StringScanner.new %q{
+class Calculator
+macro
+  nonascii  [^\0-\177]
+  string    "{nonascii}*"
+rule
+  {string}       { [:STRING, text] }
+end
+    }
+
+    rex.parse
+
+    output = StringIO.new
+    rex.write_scanner output
+    assert_match '"[^\0-\177]*"', output.string
+  end
+
+  def test_more_nested_macros
+    rex = Rex::Generator.new(
+      "--independent" => true
+    )
+    rex.grammar_lines = StringScanner.new %q{
+class Calculator
+macro
+  nonascii  [^\0-\177]
+  sing      {nonascii}*
+  string    "{sing}"
+rule
+  {string}       { [:STRING, text] }
+end
+    }
+
+    rex.parse
+
+    output = StringIO.new
+    rex.write_scanner output
+    assert_match '"[^\0-\177]*"', output.string
+  end
+
   def assert_tokens expected, scanner
     tokens = []
     while token = scanner.next_token

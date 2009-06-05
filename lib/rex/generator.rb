@@ -95,10 +95,9 @@ module Rex
         end
       end
       expr = st[0,ndx]
-      expr = expr.gsub(/\\/, '\\\\\\')
       key  =  '{' + key + '}'
       @macro.each_pair do |k, e|
-        expr.gsub!  k, e
+        expr.gsub!(k) { |m| e }
       end
       @macro[key]  =  expr
     rescue
@@ -109,7 +108,7 @@ module Rex
     def add_rule( rule_state, rule_expr, rule_action=nil )
       st = rule_expr.dup
       @macro.each_pair do |k, e|
-        rule_expr.gsub!  k, e
+        rule_expr.gsub!(k) { |m| e }
       end
       if rule_state.to_s[1,1] =~ /[A-Z]/
         @exclusive_states << rule_state  unless @exclusive_states.include?(rule_state)
