@@ -12,7 +12,7 @@
 ## ---------------------------------------------------------------------
 
 require 'getoptlong'
-module Frex
+module Rex
 
 class Cmd
 OPTIONS  =  <<-EOT
@@ -35,7 +35,7 @@ EOT
     usage 'too many grammar files given'    if ARGV.size > 1
     filename  =  ARGV[0]
 
-    rex  =  Frex::Generator.new(@opt)
+    rex  =  Rex::Generator.new(@opt)
     begin
       rex.grammar_file  =  filename
       rex.read_grammar
@@ -47,7 +47,7 @@ EOT
       rex.write_scanner
       @status  =  0
 
-    rescue Frex::ParseError, Errno::ENOENT
+    rescue Rex::ParseError, Errno::ENOENT
       msg  =  $!.to_s
       unless /\A\d/ === msg
         msg[0,0]  =  ' '
@@ -91,12 +91,12 @@ EOT
     usage    if @opt['--help']
 
     if @opt['--version']
-      puts "#{@cmd} version #{Frex::Version}"
+      puts "#{@cmd} version #{Rex::Version}"
       exit 0
     end
     if @opt['--copyright']
-      puts "#{@cmd} version #{Frex::Version}"
-      puts "#{Frex::Copyright} <#{Frex::Mailto}>"
+      puts "#{@cmd} version #{Rex::Version}"
+      puts "#{Rex::Copyright} <#{Rex::Mailto}>"
       exit 0
     end
   end

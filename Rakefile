@@ -4,9 +4,9 @@ require 'rubygems'
 require 'hoe'
 
 $LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
-require 'frex'
+require 'rex'
 
-HOE = Hoe.new('frex', Frex::VERSION) do |p|
+HOE = Hoe.new('rex', Rex::VERSION) do |p|
   p.readme_file  = 'README.rdoc'
   p.history_file = 'CHANGELOG.rdoc'
   p.developer('Aaron Patterson', 'aaronp@rubyforge.org')

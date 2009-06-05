@@ -1,11 +1,11 @@
 require 'test/unit'
 require 'tempfile'
-require 'frex' 
+require 'rex'
 
 class TestGenerator < Test::Unit::TestCase
   def test_header_is_written_after_module
     file = File.join(Dir::tmpdir, 'out.rb')
-    rex = Frex::Generator.new(
+    rex = Rex::Generator.new(
       "--independent" => true,
       "--output-file" => file
     )

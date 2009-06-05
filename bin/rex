@@ -13,6 +13,6 @@
 ## ---------------------------------------------------------------------
 
 require 'rubygems'
-require 'frex'
+require 'rex'
 
-Frex::Cmd.new.run
+Rex::Cmd.new.run

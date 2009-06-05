@@ -9,11 +9,11 @@
 #
 
 require 'strscan'
-module Frex
+module Rex
 
 ## ---------------------------------------------------------------------
   class ParseError < StandardError ; end
-  class FrexError < StandardError ; end
+  class RexError < StandardError ; end
 
 ## ---------------------------------------------------------------------
   class Generator
@@ -391,7 +391,7 @@ REX_EOT
       flag = ""
       flag += "i"  if @opt['--ignorecase']
       ## header
-      f.printf REX_HEADER, Frex::VERSION, grammar_file
+      f.printf REX_HEADER, Rex::VERSION, grammar_file
 
       unless @opt['--independent']
         f.printf "require 'racc/parser'\n"
@@ -517,7 +517,7 @@ end ## module
 ## test
 
 if __FILE__ == $0
-  rex = Frex::Generator.new(nil)
+  rex = Rex::Generator.new(nil)
   rex.grammar_file = "sample.rex"
   rex.read_grammar
   rex.parse

@@ -1,6 +1,6 @@
-= Frex
+= Rex
 
-* http://github.com/aaronp/frex/tree/master
+* http://github.com/aaronp/rex/tree/master
 
 == DESCRIPTION
 
@@ -12,24 +12,23 @@ It is designed for use with Racc.
 
 == SYNOPSIS
 
-  $ frex  sample1.rex  --stub
+  $ rex  sample1.rex  --stub
   $ ruby sample1.rex.rb  sample1.c
   
-  $ frex  sample2.rex  --stub
+  $ rex  sample2.rex  --stub
   $ ruby sample2.rex.rb  sample2.bas
   
   $ racc calc3.racc
-  $ frex  calc3.rex
+  $ rex  calc3.rex
   $ ruby calc3.tab.rb
 
 == REQUIREMENTS
 
 *  ruby version 1.8.x or later.
 
-
 == INSTALL
 
-* sudo gem install aaronp-frex --source=http://gems.github.com
+* sudo gem install rex
 
 == LICENSE
 
