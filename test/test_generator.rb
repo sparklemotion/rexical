@@ -52,6 +52,25 @@ end
     assert_match 'Calculator < Bar', output.string
   end
 
+  def test_scanner_inherits_many_levels
+    rex = Rex::Generator.new(
+      "--independent" => true
+    )
+    rex.grammar_lines = StringScanner.new %q{
+class Calculator < Foo::Bar
+rule
+  \d+       { [:NUMBER, text.to_i] }
+  \s+       { [:S, text] }
+end
+    }
+
+    rex.parse
+
+    output = StringIO.new
+    rex.write_scanner output
+    assert_match 'Calculator < Foo::Bar', output.string
+  end
+
   def test_simple_scanner
     rex = Rex::Generator.new(
       "--independent" => true

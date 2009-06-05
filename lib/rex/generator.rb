@@ -151,7 +151,7 @@ module Rex
           if ss.scan(/class/)
             state1  =  :CLASS
             st  =  ss.post_match.strip
-            if st =~ /(\S+)::(\S+)/
+            if st =~ /^(\S+)::(\S+)/
               @module_name  =  $1
               @class_name  =  $2
             else
