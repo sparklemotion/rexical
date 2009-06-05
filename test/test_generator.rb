@@ -32,4 +32,40 @@ class TestGenerator < Test::Unit::TestCase
       rex.read_grammar
     end
   end
+
+  def test_simple_scanner
+    rex = Rex::Generator.new(
+      "--independent" => true
+    )
+    rex.grammar_lines = StringScanner.new %q{
+class Calculator
+rule
+  \d+       { [:NUMBER, text.to_i] }
+  \s+       { [:S, text] }
+end
+    }
+
+    rex.parse
+    output = StringIO.new
+    rex.write_scanner output
+
+    m = Module.new
+    m.module_eval output.string
+    calc = m::Calculator.new
+    calc.scan_evaluate('1 2 10')
+
+    assert_tokens [[:NUMBER, 1],
+                  [:S, ' '],
+                  [:NUMBER, 2],
+                  [:S, ' '],
+                  [:NUMBER, 10]], calc
+  end
+
+  def assert_tokens expected, scanner
+    tokens = []
+    while token = scanner.next_token
+      tokens << token
+    end
+    assert_equal expected, tokens
+  end
 end

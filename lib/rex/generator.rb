@@ -19,6 +19,7 @@ module Rex
 
 ## ---------------------------------------------------------------------
     attr_accessor :grammar_file
+    attr_accessor :grammar_lines
     attr_accessor :scanner_file
     attr_accessor :module_name
     attr_accessor :class_name
@@ -130,7 +131,7 @@ module Rex
 
     def next_line
       @lineno += 1
-      @grammar_lines.scan(/[^\n]*\n/).chomp
+      @grammar_lines.scan_until(/\n/).chomp
     rescue
       nil
     end
@@ -375,15 +376,15 @@ REX_EOT
 ## ---------------------------------------------------------------------
 
 
-    def output_io
+    def scanner_io
       unless  scanner_file = @opt['--output-file']
         scanner_file  =  grammar_file + ".rb"
       end
       f = File.open(scanner_file, 'w')
     end
-    private :output_io
+    private :scanner_io
 
-    def write_scanner f = output_io
+    def write_scanner f = scanner_io
       ## scan flag
       flag = ""
       flag += "i"  if @opt['--ignorecase']
