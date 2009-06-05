@@ -373,12 +373,17 @@ end
 REX_EOT
 
 ## ---------------------------------------------------------------------
-    def write_scanner
+
+
+    def output_io
       unless  scanner_file = @opt['--output-file']
         scanner_file  =  grammar_file + ".rb"
       end
       f = File.open(scanner_file, 'w')
+    end
+    private :output_io
 
+    def write_scanner f = output_io
       ## scan flag
       flag = ""
       flag += "i"  if @opt['--ignorecase']
@@ -393,7 +398,7 @@ REX_EOT
         f.print s
       end
       if @module_name
-        f.puts "module #{@module_name}"  
+        f.puts "module #{@module_name}"
       end
       if @opt['--independent']
         f.puts "class #{@class_name}"
