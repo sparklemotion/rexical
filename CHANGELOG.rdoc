@@ -1,7 +1,7 @@
-=== 1.0.0
+=== 1.0.2
 
-* 1 major enhancement
+* Bug fixes
 
-  * Birthday!
+  * Fixed nested macros so that backslashes will work
 
 

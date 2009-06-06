@@ -1,10 +1,10 @@
 = Rex
 
+* http://rex.rubyforge.org
 * http://github.com/aaronp/rex/tree/master
 
 == DESCRIPTION
 
-Frex is a fork of Rex.
 Rex is a lexical scanner generator.
 It is written in Ruby itself, and generates Ruby program.
 It is designed for use with Racc.
