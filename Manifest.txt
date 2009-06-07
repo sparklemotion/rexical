@@ -6,10 +6,10 @@ README.ja
 README.rdoc
 Rakefile
 bin/rex
-lib/rex.rb
-lib/rex/generator.rb
-lib/rex/info.rb
-lib/rex/rexcmd.rb
+lib/rexical.rb
+lib/rexical/generator.rb
+lib/rexical/info.rb
+lib/rexical/rexcmd.rb
 sample/a.cmd
 sample/b.cmd
 sample/c.cmd
