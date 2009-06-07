@@ -9,7 +9,7 @@
 #
 
 module Rexical
-  VERSION   = '1.0.2'
+  VERSION   = '1.0.3'
   Copyright = 'Copyright (c) 2005-2006 ARIMA Yasuhiro'
   Mailto    = 'arima.yasuhiro@nifty.com'
 end
