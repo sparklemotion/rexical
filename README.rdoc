@@ -1,11 +1,10 @@
-= Rex
+= Rexical
 
-* http://rex.rubyforge.org
-* http://github.com/aaronp/rex/tree/master
+* http://github.com/tenderlove/rexical/tree/master
 
 == DESCRIPTION
 
-Rex is a lexical scanner generator.
+Rexical is a lexical scanner generator.
 It is written in Ruby itself, and generates Ruby program.
 It is designed for use with Racc.
 
@@ -43,11 +42,11 @@ Here is the command line usage:
 
 == INSTALL
 
-* sudo gem install rex
+* sudo gem install rexical
 
 == LICENSE
 
-Rex is distributed under the terms of the GNU Lesser General
+Rexical is distributed under the terms of the GNU Lesser General
 Public License version 2. Note that you do NOT need to follow
-LGPL for your own parser (Rex outputs). You can provide those
+LGPL for your own parser (Rexical outputs). You can provide those
 files under any licenses you want.

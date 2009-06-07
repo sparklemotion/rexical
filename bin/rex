@@ -13,6 +13,6 @@
 ## ---------------------------------------------------------------------
 
 require 'rubygems'
-require 'rex'
+require 'rexical'
 
-Rex::Cmd.new.run
+Rexical::Cmd.new.run

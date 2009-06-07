@@ -1,11 +1,11 @@
 require 'test/unit'
 require 'tempfile'
-require 'rex'
+require 'rexical'
 require 'stringio'
 
 class TestGenerator < Test::Unit::TestCase
   def test_header_is_written_after_module
-    rex = Rex::Generator.new(
+    rex = Rexical::Generator.new(
       "--independent" => true
     )
     rex.grammar_file = File.join File.dirname(__FILE__), 'assets', 'test.rex'
@@ -26,7 +26,7 @@ class TestGenerator < Test::Unit::TestCase
   end
 
   def test_read_non_existent_file
-    rex = Rex::Generator.new(nil)
+    rex = Rexical::Generator.new(nil)
     rex.grammar_file = 'non_existent_file'
     assert_raises Errno::ENOENT do
       rex.read_grammar
@@ -34,7 +34,7 @@ class TestGenerator < Test::Unit::TestCase
   end
 
   def test_scanner_inherits
-    rex = Rex::Generator.new(
+    rex = Rexical::Generator.new(
       "--independent" => true
     )
     rex.grammar_lines = StringScanner.new %q{
@@ -53,7 +53,7 @@ end
   end
 
   def test_scanner_inherits_many_levels
-    rex = Rex::Generator.new(
+    rex = Rexical::Generator.new(
       "--independent" => true
     )
     rex.grammar_lines = StringScanner.new %q{
@@ -72,7 +72,7 @@ end
   end
 
   def test_simple_scanner
-    rex = Rex::Generator.new(
+    rex = Rexical::Generator.new(
       "--independent" => true
     )
     rex.grammar_lines = StringScanner.new %q{
@@ -101,7 +101,7 @@ end
   end
 
   def test_simple_scanner_with_macros
-    rex = Rex::Generator.new(
+    rex = Rexical::Generator.new(
       "--independent" => true
     )
     rex.grammar_lines = StringScanner.new %q{
@@ -132,7 +132,7 @@ end
   end
 
   def test_nested_macros
-    rex = Rex::Generator.new(
+    rex = Rexical::Generator.new(
       "--independent" => true
     )
     rex.grammar_lines = StringScanner.new %q{
@@ -153,7 +153,7 @@ end
   end
 
   def test_more_nested_macros
-    rex = Rex::Generator.new(
+    rex = Rexical::Generator.new(
       "--independent" => true
     )
     rex.grammar_lines = StringScanner.new %q{

@@ -12,7 +12,7 @@
 ## ---------------------------------------------------------------------
 
 require 'getoptlong'
-module Rex
+module Rexical
 
 class Cmd
 OPTIONS  =  <<-EOT
@@ -35,7 +35,7 @@ EOT
     usage 'too many grammar files given'    if ARGV.size > 1
     filename  =  ARGV[0]
 
-    rex  =  Rex::Generator.new(@opt)
+    rex  =  Rexical::Generator.new(@opt)
     begin
       rex.grammar_file  =  filename
       rex.read_grammar
@@ -47,7 +47,7 @@ EOT
       rex.write_scanner
       @status  =  0
 
-    rescue Rex::ParseError, Errno::ENOENT
+    rescue Rexical::ParseError, Errno::ENOENT
       msg  =  $!.to_s
       unless /\A\d/ === msg
         msg[0,0]  =  ' '
@@ -91,12 +91,12 @@ EOT
     usage    if @opt['--help']
 
     if @opt['--version']
-      puts "#{@cmd} version #{Rex::Version}"
+      puts "#{@cmd} version #{Rexical::Version}"
       exit 0
     end
     if @opt['--copyright']
-      puts "#{@cmd} version #{Rex::Version}"
-      puts "#{Rex::Copyright} <#{Rex::Mailto}>"
+      puts "#{@cmd} version #{Rexical::Version}"
+      puts "#{Rexical::Copyright} <#{Rexical::Mailto}>"
       exit 0
     end
   end

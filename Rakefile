@@ -4,12 +4,13 @@ require 'rubygems'
 require 'hoe'
 
 $LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
-require 'rex'
+require 'rexical'
 
-HOE = Hoe.new('rex', Rex::VERSION) do |p|
+HOE = Hoe.new('rexical', Rexical::VERSION) do |p|
   p.readme_file  = 'README.rdoc'
   p.history_file = 'CHANGELOG.rdoc'
   p.developer('Aaron Patterson', 'aaronp@rubyforge.org')
+  p.rubyforge_name = 'ruby-rex'
   p.extra_rdoc_files = FileList['*.rdoc']
 end
 
