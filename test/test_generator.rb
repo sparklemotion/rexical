@@ -174,6 +174,41 @@ end
     assert_match '"[^\0-\177]*"', output.string
   end
 
+  def test_changing_state_during_lexing
+    lexer = build_lexer <<-END
+class Calculator
+rule
+       a       { state = :B  ; [:A, text] }
+  :B   b       { state = nil ; [:B, text] }
+end
+END
+
+    calc = lexer::Calculator.new
+    # Doesn't lex all 'a's
+    assert_raise(lexer::Calculator::ScanError) { calc.scan_evaluate('aaaaa') }
+    # Does lex alternating 'a's and 'b's
+    calc.scan_evaluate('ababa')
+
+    assert_tokens [[:A, 'a'],
+                   [:B, 'b'],
+                   [:A, 'a'],
+                   [:B, 'b'],
+                   [:A, 'a']], calc
+  end
+
+  def build_lexer(str)
+    rex = Rexical::Generator.new("--independent" => true)
+    out = StringIO.new
+    mod = Module.new
+
+    rex.grammar_lines = StringScanner.new(str)
+    rex.parse
+    rex.write_scanner(out)
+
+    mod.module_eval(out.string)
+    mod
+  end
+
   def assert_tokens expected, scanner
     tokens = []
     while token = scanner.next_token
