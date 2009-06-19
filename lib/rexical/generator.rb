@@ -314,45 +314,37 @@ REX_UTIL = <<-REX_EOT
 
   class ScanError < StandardError ; end
 
-  attr_reader :lineno
-  attr_reader :filename
+  attr_reader   :lineno
+  attr_reader   :filename
+  attr_accessor :state
 
-  def scan_setup ; end
+  def scan_setup(str)
+    @ss = StringScanner.new(str)
+    @lineno =  1
+    @state  = nil
+  end
 
-  def action &block
+  def action(&block)
     yield
   end
 
-  def scan_str( str )
-    scan_evaluate  str
+  def scan_str(str)
+    scan_setup(str)
     do_parse
   end
 
   def load_file( filename )
     @filename = filename
     open(filename, "r") do |f|
-      scan_evaluate  f.read
+      scan_setup(f.read)
     end
   end
 
   def scan_file( filename )
-    load_file  filename
+    load_file(filename)
     do_parse
   end
 
-REX_EOT
-
-REX_NEXTTOKEN_DEBUG = <<-REX_EOT
-  def next_token
-    p token = @rex_tokens.shift
-    token
-  end
-REX_EOT
-
-REX_NEXTTOKEN = <<-REX_EOT
-  def next_token
-    @rex_tokens.shift
-  end
 REX_EOT
 
 REX_STUB = <<-REX_EOT
@@ -409,83 +401,80 @@ REX_EOT
       ## utility method
       f.print REX_UTIL
 
-      if @opt['--debug']
-        f.print REX_NEXTTOKEN_DEBUG
-      else
-        f.print REX_NEXTTOKEN
-      end
-
       ## scanner method
 
       f.print <<-REX_EOT
 
-  def scan_evaluate( str )
-    scan_setup
-    @rex_tokens = []
-    @lineno  =  1
-    ss = StringScanner.new(str)
-    state = nil
-    until ss.eos?
-      text = ss.peek(1)
-      @lineno  +=  1  if text == "\\n"
-      case state
+  def next_token
+    return if @ss.eos?
+
+    text = @ss.peek(1)
+    @lineno  +=  1  if text == "\\n"
+    token = case @state
+    REX_EOT
+
+    exclusive_states.each do |es|
+      f.printf <<-REX_EOT
+    when #{es ? es.to_s : "nil"}
+      case
       REX_EOT
+      rules.each do |rule|
+        exclusive_state, start_state, rule_expr, rule_action = *rule
+        if es == exclusive_state
 
-      exclusive_states.each do |es|
-        f.printf <<-REX_EOT
-      when #{es ? es.to_s : "nil"}
-        case
-        REX_EOT
-        rules.each do |rule|
-          exclusive_state, start_state, rule_expr, rule_action = *rule
-          if es == exclusive_state
+          if rule_action
+            if start_state
+              f.print <<-REX_EOT
+      when (state == #{start_state}) and (text = @ss.scan(/#{rule_expr}/#{flag}))
+         action #{rule_action}
 
-            if rule_action
-              if start_state
-                f.print <<-REX_EOT
-        when (state == #{start_state}) and (text = ss.scan(/#{rule_expr}/#{flag}))
-           @rex_tokens.push action #{rule_action}
-
-                REX_EOT
-              else
-                f.print <<-REX_EOT
-        when (text = ss.scan(/#{rule_expr}/#{flag}))
-           @rex_tokens.push action #{rule_action}
-
-                REX_EOT
-              end
+              REX_EOT
             else
-              if start_state
-                f.print <<-REX_EOT
-        when (state == #{start_state}) and (text = ss.scan(/#{rule_expr}/#{flag}))
-          ;
+              f.print <<-REX_EOT
+      when (text = @ss.scan(/#{rule_expr}/#{flag}))
+         action #{rule_action}
 
-                REX_EOT
-              else
-                f.print <<-REX_EOT
-        when (text = ss.scan(/#{rule_expr}/#{flag}))
-          ;
-
-                REX_EOT
-              end
+              REX_EOT
             end
+          else
+            if start_state
+              f.print <<-REX_EOT
+      when (state == #{start_state}) and (text = @ss.scan(/#{rule_expr}/#{flag}))
+        ;
 
+              REX_EOT
+            else
+              f.print <<-REX_EOT
+      when (text = @ss.scan(/#{rule_expr}/#{flag}))
+        ;
+
+              REX_EOT
+            end
           end
-        end
-        f.print <<-REX_EOT
-        else
-          text = ss.string[ss.pos .. -1]
-          raise  ScanError, "can not match: '" + text + "'"
-        end  # if
 
-        REX_EOT
+        end
       end
       f.print <<-REX_EOT
       else
-        raise  ScanError, "undefined state: '" + state.to_s + "'"
-      end  # case state
-    end  # until ss
-  end  # def scan_evaluate
+        text = @ss.string[@ss.pos .. -1]
+        raise  ScanError, "can not match: '" + text + "'"
+      end  # if
+
+      REX_EOT
+    end
+    f.print <<-REX_EOT
+    else
+      raise  ScanError, "undefined state: '" + state.to_s + "'"
+    end  # case state
+      REX_EOT
+    if @opt['--debug']
+      f.print <<-REX_EOT
+    p token
+      REX_EOT
+    end
+    f.print <<-REX_EOT
+    token
+  end  # def next_token
 
       REX_EOT
 

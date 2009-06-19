@@ -67,7 +67,7 @@ end
     }
 
     calc = m::Calculator.new
-    calc.scan_evaluate('1 2 10')
+    calc.scan_setup('1 2 10')
 
     assert_tokens [[:NUMBER, 1],
                   [:S, ' '],
@@ -88,7 +88,7 @@ end
     }
 
     calc = m::Calculator.new
-    calc.scan_evaluate('1 2 10')
+    calc.scan_setup('1 2 10')
 
     assert_tokens [[:NUMBER, 1],
                   [:S, ' '],
@@ -130,22 +130,50 @@ end
     lexer = build_lexer %q{
 class Calculator
 rule
-       a       { state = :B  ; [:A, text] }
-  :B   b       { state = nil ; [:B, text] }
+       a       { self.state = :B  ; [:A, text] }
+  :B   b       { self.state = nil ; [:B, text] }
 end
     }
 
-    calc = lexer::Calculator.new
+    calc1 = lexer::Calculator.new
+    calc2 = lexer::Calculator.new
+    calc1.scan_setup('aaaaa')
+    calc2.scan_setup('ababa')
+
     # Doesn't lex all 'a's
-    assert_raise(lexer::Calculator::ScanError) { calc.scan_evaluate('aaaaa') }
+    assert_raise(lexer::Calculator::ScanError) { tokens(calc1) }
+
     # Does lex alternating 'a's and 'b's
-    calc.scan_evaluate('ababa')
+    calc2.scan_setup('ababa')
 
     assert_tokens [[:A, 'a'],
                    [:B, 'b'],
                    [:A, 'a'],
                    [:B, 'b'],
-                   [:A, 'a']], calc
+                   [:A, 'a']], calc2
+  end
+
+  def test_changing_state_is_possible_between_next_token_calls
+    lexer = build_lexer %q{
+class Calculator
+rule
+       a       { [:A, text] }
+  :B   b       { [:B, text] }
+end
+    }
+
+    calc = lexer::Calculator.new
+    calc.scan_setup('ababa')
+
+    assert_equal [:A, 'a'], calc.next_token
+    calc.state = :B
+    assert_equal [:B, 'b'], calc.next_token
+    calc.state = nil
+    assert_equal [:A, 'a'], calc.next_token
+    calc.state = :B
+    assert_equal [:B, 'b'], calc.next_token
+    calc.state = nil
+    assert_equal [:A, 'a'], calc.next_token
   end
 
   def parse_lexer(str)
@@ -165,11 +193,15 @@ end
     mod
   end
 
-  def assert_tokens expected, scanner
+  def tokens(scanner)
     tokens = []
     while token = scanner.next_token
       tokens << token
     end
-    assert_equal expected, tokens
+    tokens
+  end
+
+  def assert_tokens(expected, scanner)
+    assert_equal expected, tokens(scanner)
   end
 end
