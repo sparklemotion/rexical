@@ -34,10 +34,7 @@ class TestGenerator < Test::Unit::TestCase
   end
 
   def test_scanner_inherits
-    rex = Rexical::Generator.new(
-      "--independent" => true
-    )
-    rex.grammar_lines = StringScanner.new %q{
+    source = parse_lexer %q{
 class Calculator < Bar
 rule
   \d+       { [:NUMBER, text.to_i] }
@@ -45,18 +42,11 @@ rule
 end
     }
 
-    rex.parse
-
-    output = StringIO.new
-    rex.write_scanner output
-    assert_match 'Calculator < Bar', output.string
+    assert_match 'Calculator < Bar', source
   end
 
   def test_scanner_inherits_many_levels
-    rex = Rexical::Generator.new(
-      "--independent" => true
-    )
-    rex.grammar_lines = StringScanner.new %q{
+    source = parse_lexer %q{
 class Calculator < Foo::Bar
 rule
   \d+       { [:NUMBER, text.to_i] }
@@ -64,18 +54,11 @@ rule
 end
     }
 
-    rex.parse
-
-    output = StringIO.new
-    rex.write_scanner output
-    assert_match 'Calculator < Foo::Bar', output.string
+    assert_match 'Calculator < Foo::Bar', source
   end
 
   def test_simple_scanner
-    rex = Rexical::Generator.new(
-      "--independent" => true
-    )
-    rex.grammar_lines = StringScanner.new %q{
+    m = build_lexer %q{
 class Calculator
 rule
   \d+       { [:NUMBER, text.to_i] }
@@ -83,13 +66,6 @@ rule
 end
     }
 
-    rex.parse
-
-    output = StringIO.new
-    rex.write_scanner output
-
-    m = Module.new
-    m.module_eval output.string
     calc = m::Calculator.new
     calc.scan_evaluate('1 2 10')
 
@@ -101,10 +77,7 @@ end
   end
 
   def test_simple_scanner_with_macros
-    rex = Rexical::Generator.new(
-      "--independent" => true
-    )
-    rex.grammar_lines = StringScanner.new %q{
+    m = build_lexer %q{
 class Calculator
 macro
   digit     \d+
@@ -114,13 +87,6 @@ rule
 end
     }
 
-    rex.parse
-
-    output = StringIO.new
-    rex.write_scanner output
-
-    m = Module.new
-    m.module_eval output.string
     calc = m::Calculator.new
     calc.scan_evaluate('1 2 10')
 
@@ -132,10 +98,7 @@ end
   end
 
   def test_nested_macros
-    rex = Rexical::Generator.new(
-      "--independent" => true
-    )
-    rex.grammar_lines = StringScanner.new %q{
+    source = parse_lexer %q{
 class Calculator
 macro
   nonascii  [^\0-\177]
@@ -145,18 +108,11 @@ rule
 end
     }
 
-    rex.parse
-
-    output = StringIO.new
-    rex.write_scanner output
-    assert_match '"[^\0-\177]*"', output.string
+    assert_match '"[^\0-\177]*"', source
   end
 
   def test_more_nested_macros
-    rex = Rexical::Generator.new(
-      "--independent" => true
-    )
-    rex.grammar_lines = StringScanner.new %q{
+    source = parse_lexer %q{
 class Calculator
 macro
   nonascii  [^\0-\177]
@@ -167,21 +123,17 @@ rule
 end
     }
 
-    rex.parse
-
-    output = StringIO.new
-    rex.write_scanner output
-    assert_match '"[^\0-\177]*"', output.string
+    assert_match '"[^\0-\177]*"', source
   end
 
   def test_changing_state_during_lexing
-    lexer = build_lexer <<-END
+    lexer = build_lexer %q{
 class Calculator
 rule
        a       { state = :B  ; [:A, text] }
   :B   b       { state = nil ; [:B, text] }
 end
-END
+    }
 
     calc = lexer::Calculator.new
     # Doesn't lex all 'a's
@@ -196,16 +148,20 @@ END
                    [:A, 'a']], calc
   end
 
-  def build_lexer(str)
+  def parse_lexer(str)
     rex = Rexical::Generator.new("--independent" => true)
     out = StringIO.new
-    mod = Module.new
 
     rex.grammar_lines = StringScanner.new(str)
     rex.parse
     rex.write_scanner(out)
 
-    mod.module_eval(out.string)
+    out.string
+  end
+
+  def build_lexer(str)
+    mod = Module.new
+    mod.module_eval(parse_lexer(str))
     mod
   end
 
