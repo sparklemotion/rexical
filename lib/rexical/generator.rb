@@ -95,6 +95,7 @@ module Rexical
         end
       end
       expr = st[0,ndx]
+      expr.gsub!('\ ', ' ')
       key  =  '{' + key + '}'
       @macro.each_pair do |k, e|
         expr.gsub!(k) { |m| e }

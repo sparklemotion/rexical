@@ -76,6 +76,19 @@ end
                   [:NUMBER, 10]], calc
   end
 
+  def test_parses_macros_with_escapes
+    source = parse_lexer %q{
+class Foo
+macro
+  w  [\ \t]+
+rule
+  {w}  { [:SPACE, text] }
+end
+    }
+
+    assert source.index('@ss.scan(/[ \t]+/))')
+  end
+
   def test_simple_scanner_with_macros
     m = build_lexer %q{
 class Calculator
