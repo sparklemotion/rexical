@@ -3,15 +3,12 @@
 require 'rubygems'
 require 'hoe'
 
-$LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
-require 'rexical'
-
-HOE = Hoe.new('rexical', Rexical::VERSION) do |p|
-  p.readme_file  = 'README.rdoc'
-  p.history_file = 'CHANGELOG.rdoc'
-  p.developer('Aaron Patterson', 'aaronp@rubyforge.org')
-  p.rubyforge_name = 'ruby-rex'
-  p.extra_rdoc_files = FileList['*.rdoc']
+Hoe.spec 'rexical' do
+  self.readme_file  = 'README.rdoc'
+  self.history_file = 'CHANGELOG.rdoc'
+  developer('Aaron Patterson', 'aaronp@rubyforge.org')
+  self.rubyforge_name = 'ruby-rex'
+  self.extra_rdoc_files = FileList['*.rdoc']
 end
 
 namespace :gem do
