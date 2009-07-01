@@ -8,7 +8,6 @@ Rakefile
 bin/rex
 lib/rexical.rb
 lib/rexical/generator.rb
-lib/rexical/info.rb
 lib/rexical/rexcmd.rb
 sample/a.cmd
 sample/b.cmd
