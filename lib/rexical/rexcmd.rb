@@ -63,7 +63,7 @@ EOT
   def initialize
     @status  =  2
     @cmd  =  File.basename($0, ".rb")
-    tmp  =  OPTIONS.collect do |line|
+    tmp  =  OPTIONS.lines.collect do |line|
         next if /\A\s*\z/ === line
         disp, sopt, lopt, takearg, doc  =  line.strip.split(/\s+/, 5)
         a  =  []
@@ -109,7 +109,7 @@ Usage: #{@cmd} [options] <grammar file>
 Options:
     EOT
 
-    OPTIONS.each do |line|
+    OPTIONS.each_line do |line|
       next if line.strip.empty?
       if /\A\s*\z/ === line
         f.puts
