@@ -90,6 +90,23 @@ end
                   [:NUMBER, 10]], calc
   end
 
+  def test_simple_scanner_with_empty_action
+    m = build_lexer %q{
+class Calculator
+rule
+  \d+       { [:NUMBER, text.to_i] }
+  \s+       # skips whitespaces
+end
+    }
+
+    calc = m::Calculator.new
+    calc.scan_setup('1 2 10')
+
+    assert_tokens [[:NUMBER, 1],
+                  [:NUMBER, 2],
+                  [:NUMBER, 10]], calc
+  end
+
   def test_parses_macros_with_escapes
     source = parse_lexer %q{
 class Foo

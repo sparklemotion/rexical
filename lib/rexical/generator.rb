@@ -400,7 +400,13 @@ REX_EOT
 
   def next_token
     return if @ss.eos?
+    
+    # skips empty actions
+    until token = _next_token or @ss.eos?; end
+    token
+  end
 
+  def _next_token
     text = @ss.peek(1)
     @lineno  +=  1  if text == "\\n"
     token = case @state
@@ -467,7 +473,7 @@ REX_EOT
     end
     f.print <<-REX_EOT
     token
-  end  # def next_token
+  end  # def _next_token
 
       REX_EOT
 
