@@ -333,6 +333,7 @@ REX_UTIL = <<-REX_EOT
     scan_setup(str)
     do_parse
   end
+  alias :scan :scan_str
 
   def load_file( filename )
     @filename = filename

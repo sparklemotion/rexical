@@ -91,7 +91,7 @@ EOT
     usage    if @opt['--help']
 
     if @opt['--version']
-      puts "#{@cmd} version #{Rexical::Version}"
+      puts "#{@cmd} version #{Rexical::VERSION}"
       exit 0
     end
     if @opt['--copyright']
