@@ -95,7 +95,7 @@ EOT
       exit 0
     end
     if @opt['--copyright']
-      puts "#{@cmd} version #{Rexical::Version}"
+      puts "#{@cmd} version #{Rexical::VERSION}"
       puts "#{Rexical::Copyright} <#{Rexical::Mailto}>"
       exit 0
     end

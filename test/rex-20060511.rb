@@ -97,11 +97,11 @@ class RexRunner
     usage    if @opt['--help']
 
     if @opt['--version']
-      puts "#{@cmd} version #{Rex::Version}"
+      puts "#{@cmd} version #{Rex::VERSION}"
       exit 0
     end
     if @opt['--copyright']
-      puts "#{@cmd} version #{Rex::Version}"
+      puts "#{@cmd} version #{Rex::VERSION}"
       puts "#{Rex::Copyright} <#{Rex::Mailto}>"
       exit 0
     end
