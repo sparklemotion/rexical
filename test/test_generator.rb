@@ -33,6 +33,21 @@ class TestGenerator < Test::Unit::TestCase
     end
   end
 
+  def test_scanner_nests_classes
+    source = parse_lexer %q{
+module Foo
+class Baz::Calculator < Bar
+rule
+  \d+       { [:NUMBER, text.to_i] }
+  \s+       { [:S, text] }
+end
+end
+end
+    }
+
+    assert_match 'Baz::Calculator < Bar', source
+  end
+
   def test_scanner_inherits
     source = parse_lexer %q{
 class Calculator < Bar

@@ -1,3 +1,9 @@
+=== 1.0.5 / Not released
+
+* Bug fixes
+
+  * Scanners with nested classes work better
+
 === 1.0.4
 
 * Bug fixes

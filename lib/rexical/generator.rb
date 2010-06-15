@@ -151,13 +151,7 @@ module Rexical
           if ss.scan(/class/)
             state1  =  :CLASS
             st  =  ss.post_match.strip
-            if st =~ /^(\S+)::(\S+)/
-              @module_name  =  $1
-              @class_name  =  $2
-            else
-              @module_name  =  nil
-              @class_name  =  st
-            end
+            @class_name  =  st
           else
             add_header  st
           end
@@ -391,9 +385,6 @@ REX_EOT
       @scanner_header.each_line do |s|
         f.print s
       end
-      if @module_name
-        f.puts "module #{@module_name}"
-      end
       if @opt['--independent']
         f.puts "class #{@class_name}"
       else
@@ -485,7 +476,6 @@ REX_EOT
         f.print s
       end
       f.puts "end # class"
-      f.puts "end # module"  if @module_name
 
       ## footer
       @scanner_footer.each_line do |s|
