@@ -42,7 +42,6 @@ rule
   \s+       { [:S, text] }
 end
 end
-end
     }
 
     assert_match 'Baz::Calculator < Bar', source
