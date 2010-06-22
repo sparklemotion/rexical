@@ -319,7 +319,7 @@ REX_UTIL = <<-REX_EOT
     @state  = nil
   end
 
-  def action(&block)
+  def action
     yield
   end
 
