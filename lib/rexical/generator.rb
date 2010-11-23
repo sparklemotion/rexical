@@ -424,7 +424,7 @@ REX_EOT
           if rule_action
             if start_state
               f.print <<-REX_EOT
-      when (state == #{start_state}) and (text = @ss.scan(/#{rule_expr}/#{flag}))
+      when((state == #{start_state}) and (text = @ss.scan(/#{rule_expr}/#{flag})))
          action #{rule_action}
 
               REX_EOT
