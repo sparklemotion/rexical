@@ -3,6 +3,10 @@
 require 'rubygems'
 require 'hoe'
 
+Hoe.plugin :debugging
+Hoe.plugin :git
+Hoe.plugins.delete :rubyforge
+
 Hoe.spec 'rexical' do
   self.readme_file  = 'README.rdoc'
   self.history_file = 'CHANGELOG.rdoc'
