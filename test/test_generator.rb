@@ -71,6 +71,22 @@ end
     assert_match 'Calculator < Foo::Bar', source
   end
 
+  def test_stateful_lexer
+    m = build_lexer %q{
+class Foo
+rule
+          \d      { @state = :digit; [:foo, text] }
+  :digit  \w      { @state = nil; [:w, text] }
+end
+    }
+    scanner = m::Foo.new
+    scanner.scan_setup('1w1')
+    assert_tokens [
+      [:foo, '1'],
+      [:w, 'w'],
+      [:foo, '1']], scanner
+  end
+
   def test_simple_scanner
     m = build_lexer %q{
 class Calculator

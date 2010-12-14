@@ -1,4 +1,9 @@
-=== 1.0.5 / Not released
+=== 1.0.6
+
+* Bug fixes
+
+  * scanner states work better.  Thanks Mat.
+=== 1.0.5
 
 * Bug fixes
 

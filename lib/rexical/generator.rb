@@ -413,8 +413,16 @@ REX_EOT
     REX_EOT
 
     exclusive_states.each do |es|
+      if es.nil?
+        f.printf <<-REX_EOT
+    when #{(["nil"] + rules.collect{ |rule| rule[1].nil? ? "nil" : rule[1] }).uniq.join(', ')}
+      REX_EOT
+      else
+        f.printf <<-REX_EOT
+    when #{es}
+      REX_EOT
+      end
       f.printf <<-REX_EOT
-    when #{es ? es.to_s : "nil"}
       case
       REX_EOT
       rules.each do |rule|
@@ -438,7 +446,7 @@ REX_EOT
           else
             if start_state
               f.print <<-REX_EOT
-      when (state == #{start_state}) and (text = @ss.scan(/#{rule_expr}/#{flag}))
+      when (@state == #{start_state}) && (text = @ss.scan(/#{rule_expr}/#{flag}))
         ;
 
               REX_EOT
