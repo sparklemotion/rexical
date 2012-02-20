@@ -65,7 +65,8 @@ EOT
     @cmd  =  File.basename($0, ".rb")
     tmp  =  OPTIONS.lines.collect do |line|
         next if /\A\s*\z/ === line
-        disp, sopt, lopt, takearg, doc  =  line.strip.split(/\s+/, 5)
+        # disp, sopt, lopt, takearg, doc
+        _, sopt, lopt, takearg, _  =  line.strip.split(/\s+/, 5)
         a  =  []
         a.push lopt    unless lopt == '-'
         a.push sopt    unless sopt == '-'

@@ -367,7 +367,7 @@ REX_EOT
       unless  scanner_file = @opt['--output-file']
         scanner_file  =  grammar_file + ".rb"
       end
-      f = File.open(scanner_file, 'w')
+      File.open(scanner_file, 'wb')
     end
     private :scanner_io
 
@@ -400,7 +400,7 @@ REX_EOT
 
   def next_token
     return if @ss.eos?
-    
+
     # skips empty actions
     until token = _next_token or @ss.eos?; end
     token
