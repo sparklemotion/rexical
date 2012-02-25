@@ -22,6 +22,7 @@ o -s --stub             - append stub code for debug
 o -i --ignorecase       - ignore char case
 o -C --check-only       - syntax check only
 o -  --independent      - independent mode
+o -  --matcheos         - allow match against end of string
 o -d --debug            - print debug information
 o -h --help             - print this message and quit
 o -  --version          - print version and quit
