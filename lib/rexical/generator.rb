@@ -69,6 +69,8 @@ module Rexical
           @opt['--stub'] = true
         when /independent/i
           @opt['--independent'] = true
+        when /matcheos/i
+          @opt['--matcheos'] = true
         end
       end
     end
@@ -395,11 +397,11 @@ REX_EOT
       f.print REX_UTIL
 
       ## scanner method
-
+      eos_check = @opt["--matcheos"] ? "" : "return if @ss.eos?"
       f.print <<-REX_EOT
 
   def next_token
-    return if @ss.eos?
+    #{eos_check}
 
     # skips empty actions
     until token = _next_token or @ss.eos?; end
@@ -461,7 +463,16 @@ REX_EOT
 
         end
       end
+      if @opt["--matcheos"]
+        eos_check = <<-REX_EOT
+      when @@ss.scan(/$/)
+         ;
+        REX_EOT
+      else
+        eos_check = ""
+      end
       f.print <<-REX_EOT
+      #{eos_check}
       else
         text = @ss.string[@ss.pos .. -1]
         raise  ScanError, "can not match: '" + text + "'"

@@ -235,6 +235,21 @@ end
     calc.state = nil
     assert_equal [:A, 'a'], calc.next_token
   end
+  def test_match_eos
+    lexer = build_lexer %q{
+class Calculator
+option
+matcheos
+rule
+      a        { [:A, text] }
+      $        { [:EOF, ""] }
+:B    b        { [:B, text] }
+     }
+     calc = lexer::Calculator.new
+     calc.scan_setup("a")
+     assert_equal [:A, 'a'], calc.next_token
+     assert_equal [:EOF, ""], calc.next_token
+  end
 
   def parse_lexer(str)
     rex = Rexical::Generator.new("--independent" => true)
