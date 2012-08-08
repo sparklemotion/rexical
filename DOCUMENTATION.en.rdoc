@@ -207,5 +207,5 @@
 
 == Notice
 
-  This specification is provisional and may be changed without warning.
+  This specification is provisional and may be changed without prior notice.
 
