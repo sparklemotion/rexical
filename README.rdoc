@@ -4,14 +4,17 @@
 
 == DESCRIPTION
 
-Rexical is a lexical scanner generator.
-It is written in Ruby itself, and generates Ruby program.
-It is designed for use with Racc.
+Rexical is a lexical scanner generator that is used with
+Racc and generates Ruby programs.
+Rexical is written in Ruby.
 
 
 == SYNOPSIS
 
-Here is a sample lexical definition:
+Several examples of Rexical grammar files are provided in
+the sample directory.
+
+Here is an example of a lexical definition:
 
   class Sample
   macro
@@ -24,7 +27,7 @@ Here is a sample lexical definition:
     .             { [text, text] }
   end
 
-Here is the command line usage:
+Here are examples of the command line usage:
 
   $ rex  sample1.rex  --stub
   $ ruby sample1.rex.rb  sample1.c
@@ -35,6 +38,8 @@ Here is the command line usage:
   $ racc calc3.racc
   $ rex  calc3.rex
   $ ruby calc3.tab.rb
+
+The sample directory contains description examples.
 
 == REQUIREMENTS
 
@@ -50,3 +55,12 @@ Rexical is distributed under the terms of the GNU Lesser General
 Public License version 2. Note that you do NOT need to follow
 LGPL for your own parser (Rexical outputs). You can provide those
 files under any licenses you want.
+
+== BUGS
+
+Send descriptions of phenomena that appear to be bugs to the address below.
+If possible, attach the grammar file that will reproduce the bug.
+
+                                                           ARIMA Yasuhiro
+                                                 arima.yasuhiro@nifty.com
+                                    http://raa.ruby-lang.org/project/rex/
