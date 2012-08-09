@@ -59,7 +59,7 @@ files under any licenses you want.
 == BUGS
 
 Send descriptions of phenomena that appear to be bugs to the address below.
-If possible, attach the grammar file that will reproduce the bug.
+If possible, attach the grammar file that reproduces the bug.
 
                                                            ARIMA Yasuhiro
                                                  arima.yasuhiro@nifty.com
