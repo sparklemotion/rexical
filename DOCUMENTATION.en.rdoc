@@ -149,8 +149,8 @@
 === actions: Processing Actions ( Optional )
 
     The action is performed when the pattern is matched.
-    The active defines the process for creating the appropriate token.
-    A token is a two-element array of the type and the value, or is nil.
+    The action defines the process for creating the appropriate token.
+    A token is a two-element array of a type and a value, or is nil.
     The following elements can be used to create a token.
 
       lineno    Line number     ( Read Only )
@@ -158,7 +158,7 @@
       state     Start state     ( Read/Write )
 
     The action is a block of Ruby code enclosed by { }.
-    Don't use functions that exit the block and change the control flow.
+    Do not use functions that exit the block and change the control flow.
     ( return, exit, next, break, ... )
     If the action is omitted, the matched character string is discarded, 
     and the process advances to the next scan.
@@ -181,9 +181,9 @@
 
 == Using a Generated Class
 
-=== scan_setup()
+=== scan_setup(str)
 
-    This is the initialization event when the execution of the scanner starts.
+    This is the initialization event when the scanner execution starts.
     This is redefined and used.
 
 
