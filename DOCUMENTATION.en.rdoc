@@ -181,9 +181,9 @@
 
 == Using a Generated Class
 
-=== scan_setup(str)
+=== scan_setup( str )
 
-    This is the initialization event when the scanner execution starts.
+    Initializes the scanner for the str string argument.
     This is redefined and used.
 
 
