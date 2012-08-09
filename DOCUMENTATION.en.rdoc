@@ -133,8 +133,8 @@
 === state: Start State ( Optional )
 
     A start state is indicated by an identifier beginning with ":".
-    When uppercase letters follow the ":", the state becomes an exclusive start state.
-    When lowercase letters follow, the state becomes an inclusive start state.
+    If uppercase letters follow the ":", the state becomes an exclusive start state.
+    If lowercase letters follow the ":", the state becomes an inclusive start state.
     The initial value and the default value of a start state are nil.
 
 
