@@ -10,7 +10,7 @@
 
   rex [options] grammarfile
 
-  -o  --output-file  filename   designated output filename
+  -o  --output-file  filename   designate output filename
   -s  --stub                    append stub main for debugging
   -i  --ignorecase              ignore character case
   -C  --check-only              only check syntax
