@@ -39,7 +39,8 @@ Here are examples of the command line usage:
   $ rex  calc3.rex
   $ ruby calc3.tab.rb
 
-The sample directory contains more description examples.
+The description files for lexical analysis in the sample directory
+are the files ending with the .rex extension.
 
 == REQUIREMENTS
 
