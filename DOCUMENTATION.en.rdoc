@@ -176,7 +176,7 @@
 
 == Comment ( Optional )
 
-  Any text following "#" to the end of the line becomes a comment.
+  Any text following a "#" to the end of the line becomes a comment.
 
 
 == Using a Generated Class
