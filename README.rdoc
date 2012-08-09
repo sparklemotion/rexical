@@ -5,7 +5,7 @@
 == DESCRIPTION
 
 Rexical is a lexical scanner generator that is used with
-Racc and generates Ruby programs.
+Racc to generate Ruby programs.
 Rexical is written in Ruby.
 
 
