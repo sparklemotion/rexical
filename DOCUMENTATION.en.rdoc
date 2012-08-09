@@ -3,7 +3,7 @@
 
 == About
 
-  Lexical Scanner Generator for Ruby and used with Racc.
+  Lexical Scanner Generator used with Racc for Ruby
 
 
 == Usage
