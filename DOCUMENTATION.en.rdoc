@@ -132,7 +132,7 @@
 
 === state: Start State ( Optional )
 
-    A start state is indicated by an identifier beginning with ":".
+    A start state is indicated by an identifier beginning with ":", a Ruby symbol.
     If uppercase letters follow the ":", the state becomes an exclusive start state.
     If lowercase letters follow the ":", the state becomes an inclusive start state.
     The initial value and the default value of a start state are nil.
@@ -140,10 +140,10 @@
 
 === pattern: String Pattern
 
-    The regular expression specifies a character string.
-    The macro definition enclosed by brackets { } can be used in the 
-    regular expression description.  A macro definition is used when the 
-    regular expression includes spaces.
+    A regular expression specifies a character string.
+    A regular expression description may include a macro definition enclosed
+    by curly braces { }.
+    A macro definition is used when the regular expression includes whitespace.
 
 
 === actions: Processing Actions ( Optional )
