@@ -148,9 +148,9 @@
 
 === actions: Processing Actions ( Optional )
 
-    The action is performed when the pattern is matched.
+    An action is executed when the pattern is matched.
     The action defines the process for creating the appropriate token.
-    A token is a two-element array of a type and a value, or is nil.
+    A token is a two-element array containing a type and a value, or is nil.
     The following elements can be used to create a token.
 
       lineno    Line number     ( Read Only )
@@ -161,7 +161,7 @@
     Do not use functions that exit the block and change the control flow.
     ( return, exit, next, break, ... )
     If the action is omitted, the matched character string is discarded, 
-    and the process advances to the next scan.
+    and the next scan proceeds.
 
 
 === Definition Example of Rule Section
