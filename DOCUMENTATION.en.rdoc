@@ -23,7 +23,7 @@
 
 == Default Output Filename
 
-  The destination file is foo.rex.rb for foo.rex.
+  The destination file for foo.rex is foo.rex.rb.
   To use, include the following in the Ruby source code file.
 
     require 'foo.rex' 
@@ -31,7 +31,7 @@
 
 == Grammar File Format
 
-  A definition is given in order of a header section, a rule section, 
+  A definition consists of a header section, a rule section, 
   and a footer section.  The rule section includes one or more clauses.
   Each clause starts with a keyword.
 
@@ -67,25 +67,25 @@
 == Header Section ( Optional )
 
   All of the contents described before the definitions in the rule section are 
-  written at the beginning of the output file.
+  copied to the beginning of the output file.
 
 
 == Footer Section ( Optional )
 
-  All the contents described after the definition of a rule section are 
-  written at the end of the output file.
+  All the contents described after the definitions in the rule section are 
+  copied to the end of the output file.
 
 
 == Rule Section
 
-  The rule section is from the line beginning with the "class" keyword 
-  to the line beginning with the "end" keyword.
+  The rule section starts at the line beginning with the "class" keyword 
+  and ends at the line beginning with the "end" keyword.
   The class name is specified after the "class" keyword.
   If a module name is specified, the class will be included in the module.
   A class that inherits Racc::Parser is generated.
 
 
-=== Example Definition of Rule Section
+=== Example Definitions of the Rule Section
 
     class Foo
     class Bar::Foo
@@ -97,7 +97,7 @@
 
     "ignorecase"  ignore the character case when pattern matching
     "stub"        append stub main for debugging
-    "independent" independent mode, does not inherited Racc.
+    "independent" independent mode, do not inherit Racc.
 
 
 == Inner Section for User Code ( Optional )
@@ -110,7 +110,7 @@
 == Macro Section ( Optional )
 
   This section begins with the "macro" keyword.
-  One regular expression is named.
+  A name is assigned to one regular expression.
   A space character (0x20) can be included by using a backslash \ to escape.
 
 
