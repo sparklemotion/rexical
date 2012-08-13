@@ -161,10 +161,10 @@
     Do not use functions that exit the block and change the control flow.
     ( return, exit, next, break, ... )
     If the action is omitted, the matched character string is discarded, 
-    and the next scan proceeds.
+    and the process advances to the next scan.
 
 
-=== Definition Example of Rule Section
+=== Example of Rule Section Definition
 
         {REMIN}                 { state = :REM ; [:REM_IN, text] }
   :REM  {REMOUT}                { state = nil ; [:REM_OUT, text] }
@@ -174,16 +174,16 @@
         {WORD}                  { [:word, text] }
         .                       { [text, text] }
 
-== Comment ( Optional )
+== Comments ( Optional )
 
   Any text following a "#" to the end of the line becomes a comment.
 
 
-== Using a Generated Class
+== Using the Generated Class
 
 === scan_setup( str )
 
-    Initializes the scanner for the str string argument.
+    Initializes the scanner with the str string argument.
     This is redefined and used.
 
 
@@ -195,7 +195,7 @@
 
 === scan_file( filename )
 
-    Reads in the file described in the defined grammar.
+    Reads in a file described in the defined grammar.
     The tokens are stored internally.
 
 
