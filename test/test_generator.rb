@@ -1,9 +1,9 @@
-require 'test/unit'
+require 'minitest/autorun'
 require 'tempfile'
 require 'rexical'
 require 'stringio'
 
-class TestGenerator < Test::Unit::TestCase
+class TestGenerator < Minitest::Test
   def test_header_is_written_after_module
     rex = Rexical::Generator.new(
       "--independent" => true
@@ -201,7 +201,7 @@ end
     calc2.scan_setup('ababa')
 
     # Doesn't lex all 'a's
-    assert_raise(lexer::Calculator::ScanError) { tokens(calc1) }
+    assert_raises(lexer::Calculator::ScanError) { tokens(calc1) }
 
     # Does lex alternating 'a's and 'b's
     calc2.scan_setup('ababa')
