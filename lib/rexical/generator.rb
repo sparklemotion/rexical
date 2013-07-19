@@ -11,13 +11,9 @@
 require 'strscan'
 module Rexical
 
-## ---------------------------------------------------------------------
   class ParseError < StandardError ; end
 
-## ---------------------------------------------------------------------
   class Generator
-
-## ---------------------------------------------------------------------
     attr_accessor :grammar_file
     attr_accessor :grammar_lines
     attr_accessor :scanner_file
@@ -30,7 +26,6 @@ module Rexical
     attr_accessor :independent
     attr_accessor :debug
 
-## ---------------------------------------------------------------------
     def initialize(opts)
       @lineno  =  0
       @macro  =  {}
@@ -43,22 +38,18 @@ module Rexical
       @opt  =  opts
     end
 
-## ---------------------------------------------------------------------
     def add_header( st )
       @scanner_header  +=  "#{st}\n"
     end
 
-## ---------------------------------------------------------------------
     def add_footer( st )
       @scanner_footer  +=  "#{st}\n"
     end
 
-## ---------------------------------------------------------------------
     def add_inner( st )
       @scanner_inner  +=  "#{st}\n"
     end
 
-## ---------------------------------------------------------------------
     def add_option( st )
       opts = st.split
       opts.each do |opt|
@@ -75,7 +66,6 @@ module Rexical
       end
     end
 
-## ---------------------------------------------------------------------
     def add_macro( st )
       ss  =  StringScanner.new(st)
       ss.scan(/\s+/)
@@ -107,7 +97,6 @@ module Rexical
       raise ParseError, "parse error in add_macro:'#{st}'"
     end
 
-## ---------------------------------------------------------------------
     def add_rule( rule_state, rule_expr, rule_action=nil )
       st = rule_expr.dup
       @macro.each_pair do |k, e|
@@ -220,16 +209,11 @@ module Rexical
               end
 
             end # case state3
-
           end # case state2
-
         end # case state1
-
       end # while
-
     end
 
-## ---------------------------------------------------------------------
     def parse_rule(st)
       st.strip!
       return  if st.size == 0 or st[0,1] == '#'
@@ -242,7 +226,6 @@ module Rexical
       [rule_state, rule_expr, ss.post_match]
     end
 
-## ---------------------------------------------------------------------
     def parse_action(st, lastmodes=[])
       modes  =  lastmodes
       mode  =  lastmodes[-1]
@@ -294,8 +277,6 @@ module Rexical
       #p [c, mode, modes]
       return  modes
     end
-
-## ---------------------------------------------------------------------
 
     REX_HEADER = <<-REX_EOT.gsub(/^ {6}/, '')
       #--
@@ -362,8 +343,6 @@ module Rexical
       end
     REX_EOT
 
-## ---------------------------------------------------------------------
-
     def scanner_io
       unless  scanner_file = @opt['--output-file']
         scanner_file  =  grammar_file + ".rb"
@@ -373,10 +352,9 @@ module Rexical
     private :scanner_io
 
     def write_scanner f = scanner_io
-      ## scan flag
       flag = ""
       flag += "i"  if @opt['--ignorecase']
-      ## header
+
       f.printf REX_HEADER, Rexical::VERSION, grammar_file
 
       unless @opt['--independent']
@@ -392,12 +370,11 @@ module Rexical
         f.puts "class #{@class_name} < Racc::Parser"
       end
 
-      ## utility method
       f.print REX_UTIL
 
-      ## scanner method
       eos_check = @opt["--matcheos"] ? "" : "return if @ss.eos?"
 
+      ## scanner method
       f.print <<-REX_EOT
 
         def next_token
@@ -502,32 +479,18 @@ module Rexical
 
       REX_EOT
 
-      ## inner method
       @scanner_inner.each_line do |s|
         f.print s
       end
       f.puts "end # class"
 
-      ## footer
       @scanner_footer.each_line do |s|
         f.print s
-      end # case
+      end
 
-      ## stub main
       f.printf REX_STUB, @class_name, '"%s:%d:%s\n"'  if @opt['--stub']
       f.close
 
     end ## def write_scanner
   end ## class Generator
 end ## module Rexical
-
-## ---------------------------------------------------------------------
-## test
-
-if __FILE__ == $0
-  rex = Rexical::Generator.new(nil)
-  rex.grammar_file = "sample.rex"
-  rex.read_grammar
-  rex.parse
-  rex.write_scanner
-end
