@@ -47,7 +47,7 @@
     ["macro"
       [macro-name  regular-expression] ]
     "rule"
-      [start-state]  pattern  [actions]
+      [start-state]  /pattern/[flags]  [actions]
     "end"
     [Footer Part]
 
@@ -59,9 +59,9 @@
       BLANK         \s+
       DIGIT         \d+
     rule
-      {BLANK}
-      {DIGIT}       { [:NUMBER, text.to_i] }
-      .             { [text, text] }
+      /{{BLANK}}/
+      /{{DIGIT}}/   { [:NUMBER, text.to_i] }
+      /./           { [text, text] }
     end
 
 
@@ -123,12 +123,14 @@
     REMIN         \/\*
     REMOUT        \*\/
 
+TODO: talk about whitespace
+TODO: talk about using macros in macros
 
 == Rule Section
 
   "rule" is start keyword.
 
-  [state]  pattern  [actions]
+  [state]  /pattern/[flags]  [actions]
 
 
 === state: Start State ( Optional )
@@ -142,11 +144,11 @@
 
 === pattern: String Pattern
 
-    The regular expression for specifying a character string.
-    The macro definition bundled with { } can be used for description 
-    of a regular expression.  A macro definition is used in order to use 
-    a regular expression including a blank.
-
+    The regular expression for specifying a character string. It is
+    surrounded by // and may be followed with regexp flags (currently
+    only /i). The macro definition bundled with {{ }} can be used for
+    description of a regular expression. A macro definition is used in
+    order to use a regular expression including a blank.
 
 === actions: Processing Actions ( Optional )
 
@@ -169,13 +171,13 @@
 
 === Rule Part Example
 
-        {REMIN}                 { state = :REM ; [:REM_IN, text] }
-  :REM  {REMOUT}                { state = nil ; [:REM_OUT, text] }
-  :REM  (.+)(?={REMOUT})        { [:COMMENT, text] }
-        {BLANK}
-        -?{DIGIT}               { [:NUMBER, text.to_i] }
-        {WORD}                  { [:word, text] }
-        .                       { [text, text] }
+        /{{REMIN}}/                 { state = :REM ; [:REM_IN, text] }
+  :REM  /{{REMOUT}}/                { state = nil ; [:REM_OUT, text] }
+  :REM  /(.+)(?={{REMOUT}})/        { [:COMMENT, text] }
+        /{{BLANK}}/
+        /-?{{DIGIT}}/               { [:NUMBER, text.to_i] }
+        /{{WORD}}/                  { [:word, text] }
+        /./                         { [text, text] }
 
 == Comment ( Optional )
 

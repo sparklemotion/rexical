@@ -88,7 +88,7 @@ module Rexical
       end
       expr = st[0,ndx]
       expr.gsub!('\ ', ' ')
-      key  =  '{' + key + '}'
+      key  =  '{{' + key + '}}'
       @macro.each_pair do |k, e|
         expr.gsub!(k) { |m| e }
       end
@@ -221,7 +221,7 @@ module Rexical
       ss.scan(/\s+/)
       rule_state  =  ss.scan(/\:\S+/)
       ss.scan(/\s+/)
-      rule_expr  =  ss.scan(/\S+/)
+      rule_expr  =  ss.scan(/\/(\\\/|[^\/])+\/[i]?/)
       ss.scan(/\s+/)
       [rule_state, rule_expr, ss.post_match]
     end
@@ -412,13 +412,13 @@ module Rexical
             if rule_action
               if start_state
                 f.print <<-REX_EOT
-                  when((state == #{start_state}) and (text = @ss.scan(/#{rule_expr}/#{flag})))
+                  when((state == #{start_state}) and (text = @ss.scan(#{rule_expr}#{flag})))
                      action #{rule_action}
 
                 REX_EOT
               else
                 f.print <<-REX_EOT
-                  when (text = @ss.scan(/#{rule_expr}/#{flag}))
+                  when (text = @ss.scan(#{rule_expr}#{flag}))
                      action #{rule_action}
 
                 REX_EOT
@@ -426,13 +426,13 @@ module Rexical
             else
               if start_state
                 f.print <<-REX_EOT
-                  when (@state == #{start_state}) && (text = @ss.scan(/#{rule_expr}/#{flag}))
+                  when (@state == #{start_state}) && (text = @ss.scan(#{rule_expr}#{flag}))
                     ;
 
                 REX_EOT
               else
                 f.print <<-REX_EOT
-                  when (text = @ss.scan(/#{rule_expr}/#{flag}))
+                  when (text = @ss.scan(#{rule_expr}#{flag}))
                     ;
 
                 REX_EOT

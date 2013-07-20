@@ -59,9 +59,9 @@
       BLANK         \s+
       DIGIT         \d+
     rule
-      {BLANK}
-      {DIGIT}       { [:NUMBER, text.to_i] }
-      .             { [text, text] }
+      /{{BLANK}}/
+      /{{DIGIT}}/   { [:NUMBER, text.to_i] }
+      /./           { [text, text] }
     end
 
 
@@ -118,12 +118,14 @@
     REMIN         \/\*
     REMOUT        \*\/
 
+TODO: talk about whitespace
+TODO: talk about using macros in macros
 
 == 走査規則
 
   この節は "rule" キーワードで始まる。
 
-  [state]  pattern  [actions]
+  [state]  /pattern/[flags]  [actions]
 
 
 === state: スタート状態（省略可能）
@@ -140,6 +142,12 @@
     正規表現の記述には、括弧で括ったマクロ定義を用いることができる。
     空白を含む正規表現を用いるには、マクロを使用する。
 
+TODO:
+    The regular expression for specifying a character string. It is
+    surrounded by // and may be followed with regexp flags (currently
+    only /i). The macro definition bundled with {{ }} can be used for
+    description of a regular expression. A macro definition is used in
+    order to use a regular expression including a blank.
 
 === actions: アクション（省略可能）
 
@@ -160,13 +168,13 @@
 
 === 走査規則定義例
 
-        {REMIN}                 { state = :REM ; [:REM_IN, text] }
-  :REM  {REMOUT}                { state = nil ; [:REM_OUT, text] }
-  :REM  (.+)(?={REMOUT})        { [:COMMENT, text] }
-        {BLANK}
-        -?{DIGIT}               { [:NUMBER, text.to_i] }
-        {WORD}                  { [:word, text] }
-        .                       { [text, text] }
+        /{{REMIN}}/                 { state = :REM ; [:REM_IN, text] }
+  :REM  /{{REMOUT}}/                { state = nil ; [:REM_OUT, text] }
+  :REM  /(.+)(?={{REMOUT}})/        { [:COMMENT, text] }
+        /{{BLANK}}/
+        /-?{{DIGIT}}/               { [:NUMBER, text.to_i] }
+        /{{WORD}}/                  { [:word, text] }
+        /./                         { [text, text] }
 
 
 == コメント（省略可能）
