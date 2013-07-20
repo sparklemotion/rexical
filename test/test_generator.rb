@@ -1,9 +1,10 @@
-require 'test/unit'
+gem "minitest"
+require 'minitest/autorun'
 require 'tempfile'
 require 'rexical'
 require 'stringio'
 
-class TestGenerator < Test::Unit::TestCase
+class TestGenerator < Minitest::Test
   def test_header_is_written_after_module
     rex = Rexical::Generator.new(
       "--independent" => true
@@ -38,8 +39,8 @@ class TestGenerator < Test::Unit::TestCase
 module Foo
 class Baz::Calculator < Bar
 rule
-  \d+       { [:NUMBER, text.to_i] }
-  \s+       { [:S, text] }
+  /\d+/       { [:NUMBER, text.to_i] }
+  /\s+/       { [:S, text] }
 end
 end
     }
@@ -51,8 +52,8 @@ end
     source = parse_lexer %q{
 class Calculator < Bar
 rule
-  \d+       { [:NUMBER, text.to_i] }
-  \s+       { [:S, text] }
+  /\d+/       { [:NUMBER, text.to_i] }
+  /\s+/       { [:S, text] }
 end
     }
 
@@ -63,8 +64,8 @@ end
     source = parse_lexer %q{
 class Calculator < Foo::Bar
 rule
-  \d+       { [:NUMBER, text.to_i] }
-  \s+       { [:S, text] }
+  /\d+/       { [:NUMBER, text.to_i] }
+  /\s+/       { [:S, text] }
 end
     }
 
@@ -75,8 +76,8 @@ end
     m = build_lexer %q{
 class Foo
 rule
-          \d      { @state = :digit; [:foo, text] }
-  :digit  \w      { @state = nil; [:w, text] }
+          /\d/      { @state = :digit; [:foo, text] }
+  :digit  /\w/      { @state = nil; [:w, text] }
 end
     }
     scanner = m::Foo.new
@@ -91,8 +92,8 @@ end
     m = build_lexer %q{
 class Calculator
 rule
-  \d+       { [:NUMBER, text.to_i] }
-  \s+       { [:S, text] }
+  /\d+/       { [:NUMBER, text.to_i] }
+  /\s+/       { [:S, text] }
 end
     }
 
@@ -110,8 +111,8 @@ end
     m = build_lexer %q{
 class Calculator
 rule
-  \d+       { [:NUMBER, text.to_i] }
-  \s+       # skips whitespaces
+  /\d+/       { [:NUMBER, text.to_i] }
+  /\s+/       # skips whitespaces
 end
     }
 
@@ -129,7 +130,7 @@ class Foo
 macro
   w  [\ \t]+
 rule
-  {w}  { [:SPACE, text] }
+  /{{w}}/  { [:SPACE, text] }
 end
     }
 
@@ -142,8 +143,8 @@ class Calculator
 macro
   digit     \d+
 rule
-  {digit}       { [:NUMBER, text.to_i] }
-  \s+       { [:S, text] }
+  /{{digit}}/       { [:NUMBER, text.to_i] }
+  /\s+/       { [:S, text] }
 end
     }
 
@@ -162,9 +163,9 @@ end
 class Calculator
 macro
   nonascii  [^\0-\177]
-  string    "{nonascii}*"
+  string    "{{nonascii}}*"
 rule
-  {string}       { [:STRING, text] }
+  /{{string}}/       { [:STRING, text] }
 end
     }
 
@@ -176,10 +177,10 @@ end
 class Calculator
 macro
   nonascii  [^\0-\177]
-  sing      {nonascii}*
-  string    "{sing}"
+  sing      {{nonascii}}*
+  string    "{{sing}}"
 rule
-  {string}       { [:STRING, text] }
+  /{{string}}/       { [:STRING, text] }
 end
     }
 
@@ -190,8 +191,8 @@ end
     lexer = build_lexer %q{
 class Calculator
 rule
-       a       { self.state = :B  ; [:A, text] }
-  :B   b       { self.state = nil ; [:B, text] }
+       /a/       { self.state = :B  ; [:A, text] }
+  :B   /b/       { self.state = nil ; [:B, text] }
 end
     }
 
@@ -201,7 +202,7 @@ end
     calc2.scan_setup('ababa')
 
     # Doesn't lex all 'a's
-    assert_raise(lexer::Calculator::ScanError) { tokens(calc1) }
+    assert_raises(lexer::Calculator::ScanError) { tokens(calc1) }
 
     # Does lex alternating 'a's and 'b's
     calc2.scan_setup('ababa')
@@ -217,8 +218,8 @@ end
     lexer = build_lexer %q{
 class Calculator
 rule
-       a       { [:A, text] }
-  :B   b       { [:B, text] }
+       /a/       { [:A, text] }
+  :B   /b/       { [:B, text] }
 end
     }
 
@@ -241,9 +242,9 @@ class Calculator
 option
 matcheos
 rule
-      a        { [:A, text] }
-      $        { [:EOF, ""] }
-:B    b        { [:B, text] }
+      /a/        { [:A, text] }
+      /$/        { [:EOF, ""] }
+:B    /b/        { [:B, text] }
      }
      calc = lexer::Calculator.new
      calc.scan_setup("a")

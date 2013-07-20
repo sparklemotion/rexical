@@ -17,11 +17,11 @@ Here is a sample lexical definition:
   macro
     BLANK         [\ \t]+
   rule
-    BLANK         # no action
-    \d+           { [:digit, text.to_i] }
-    \w+           { [:word, text] }
-    \n
-    .             { [text, text] }
+    /{{BLANK}}/     # no action
+    /\d+/           { [:digit, text.to_i] }
+    /\w+/           { [:word, text] }
+    /\n/
+    /./             { [text, text] }
   end
 
 Here is the command line usage:
