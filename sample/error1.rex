@@ -7,7 +7,7 @@ class Error1
 macro
   BLANK         [\ \t]+
 rule
-  BLANK         # no action
+  {BLANK}       # no action
   \d+           { [:digit, text.to_i] }
   \w+           { [:word, text] }
   \n
