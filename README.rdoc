@@ -18,7 +18,7 @@ Here is an example of a lexical definition:
 
   class Sample
   macro
-    BLANK         [\ \t]+
+    {BLANK}       [\ \t]+
   rule
     {BLANK}       # no action
     \d+           { [:digit, text.to_i] }
