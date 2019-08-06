@@ -314,7 +314,7 @@ module Rexical
 
       def load_file( filename )
         @filename = filename
-        open(filename, "r") do |f|
+        File.open(filename, "r") do |f|
           scan_setup(f.read)
         end
       end
