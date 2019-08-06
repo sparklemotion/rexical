@@ -12,6 +12,9 @@ Hoe.spec 'rexical' do
   self.history_file = 'CHANGELOG.rdoc'
   developer('Aaron Patterson', 'aaronp@rubyforge.org')
   self.extra_rdoc_files = FileList['*.rdoc']
+  self.extra_dev_deps += [
+    ["rubocop", "~> 0.74.0"]
+  ]
 end
 
 namespace :gem do
