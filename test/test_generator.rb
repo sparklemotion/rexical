@@ -3,6 +3,7 @@ require 'minitest/autorun'
 require 'tempfile'
 require 'rexical'
 require 'stringio'
+require 'open3'
 
 class TestGenerator < Minitest::Test
   def test_header_is_written_after_module
@@ -24,6 +25,29 @@ class TestGenerator < Minitest::Test
     assert_match 'DO NOT MODIFY', comments.join
     assert_equal '#--', comments.first
     assert_equal '#++', comments.last
+  end
+
+  def test_rubocop_security
+    rex = Rexical::Generator.new(
+      "--independent" => true
+    )
+    rex.grammar_file = File.join File.dirname(__FILE__), 'assets', 'test.rex'
+    rex.read_grammar
+    rex.parse
+
+    output = Tempfile.new(["rex_output", ".rb"])
+    begin
+      rex.write_scanner output
+      output.close
+
+      stdin, stdoe, wait_thr = Open3.popen2e "rubocop --only Security #{output.path}"
+      if ! wait_thr.value.success?
+        fail stdoe.read
+      end
+    ensure
+      output.close
+      output.unlink
+    end
   end
 
   def test_read_non_existent_file
