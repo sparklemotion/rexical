@@ -85,7 +85,7 @@ EOT
             "#{@cmd}: #{name} given twice" if @opt.key? name
         @opt[name]  =  arg.empty? ? true : arg
       end
-    rescue GetoptLong::AmbigousOption, GetoptLong::InvalidOption,
+    rescue GetoptLong::AmbiguousOption, GetoptLong::InvalidOption,
            GetoptLong::MissingArgument, GetoptLong::NeedlessArgument
       usage $!.message
     end
