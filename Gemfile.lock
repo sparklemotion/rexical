@@ -2,8 +2,6 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
-    hoe (4.2.1)
-      rake (>= 0.8, < 15.0)
     json (2.7.2)
     language_server-protocol (3.17.0.3)
     minitest (5.23.0)
@@ -39,8 +37,8 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  hoe
   minitest
+  rake
   rubocop
 
 BUNDLED WITH

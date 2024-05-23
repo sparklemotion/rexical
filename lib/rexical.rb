@@ -1,5 +1,5 @@
-require "rexical/generator"
-require "rexical/rexcmd"
+require_relative "rexical/generator"
+require_relative "rexical/rexcmd"
 
 module Rexical
   VERSION = "1.0.7"
