@@ -4,7 +4,7 @@ DOCUMENTATION.en.rdoc
 DOCUMENTATION.ja.rdoc
 Manifest.txt
 README.ja
-README.rdoc
+README.md
 Rakefile
 bin/rex
 lib/rexical.rb
