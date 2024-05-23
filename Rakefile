@@ -15,6 +15,7 @@ Hoe.spec 'rexical' do
   self.extra_dev_deps += [
     ["rubocop", "~> 0.74.0"]
   ]
+  self.license "LGPL-2.0"
 end
 
 namespace :gem do
