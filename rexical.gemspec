@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.executables = ["rex"]
 
   s.rdoc_options = ["--main", "README.rdoc"]
-  s.extra_rdoc_files = ["CHANGELOG.rdoc", "DOCUMENTATION.en.rdoc", "DOCUMENTATION.ja.rdoc", "README.rdoc"]
+  s.extra_rdoc_files = ["CHANGELOG.md", "DOCUMENTATION.en.rdoc", "DOCUMENTATION.ja.rdoc", "README.rdoc"]
 
   s.files = File.read("Manifest.txt").split("\n")
 
