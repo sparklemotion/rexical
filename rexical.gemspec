@@ -1,4 +1,4 @@
-require_relative "lib/rexical"
+require_relative "lib/rexical/version"
 
 Gem::Specification.new do |s|
   s.name = "rexical"
