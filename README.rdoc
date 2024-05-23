@@ -1,12 +1,6 @@
-= Looking for a new maintainer
-
-I'm not interested in maintaining this gem. If you'd like to take it over, please drop a note on issue #29
-
-Thanks!
-
 = Rexical
 
-* http://github.com/tenderlove/rexical/tree/master
+home :: http://github.com/sparklemotion/rexical/tree/master
 
 == DESCRIPTION
 

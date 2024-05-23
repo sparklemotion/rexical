@@ -18,7 +18,17 @@ on:
       - '*'
 
 jobs:
-  skeleton:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ["2.7", "3.0", "3.1", "3.2", "3.3", "head"]
     runs-on: ubuntu-latest
     steps:
-      - run: echo OK
+      - uses: actions/checkout@v4
+      - run: rm Gemfile.lock
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{matrix.ruby}}
+          bundler-cache: true
+      - run: bundle exec rake test
