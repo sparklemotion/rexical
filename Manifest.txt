@@ -1,4 +1,5 @@
 CHANGELOG.rdoc
+COPYING
 DOCUMENTATION.en.rdoc
 DOCUMENTATION.ja.rdoc
 Manifest.txt
