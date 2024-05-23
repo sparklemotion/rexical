@@ -18,4 +18,6 @@ Gem::Specification.new do |s|
   s.files = File.read("Manifest.txt").split("\n")
 
   s.licenses = ["LGPL-2.1-only"]
+
+  s.add_dependency "getoptlong"
 end

@@ -1,10 +1,17 @@
+PATH
+  remote: .
+  specs:
+    rexical (1.0.7)
+      getoptlong
+
 GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
+    getoptlong (0.2.1)
     json (2.7.2)
     language_server-protocol (3.17.0.3)
-    minitest (5.23.0)
+    minitest (5.23.1)
     parallel (1.24.0)
     parser (3.3.1.0)
       ast (~> 2.4.1)
@@ -39,6 +46,7 @@ PLATFORMS
 DEPENDENCIES
   minitest
   rake
+  rexical!
   rubocop
 
 BUNDLED WITH

@@ -1,3 +1,10 @@
+=== next / unrelesaed
+
+==== Dependencies
+
+- Added `getoptlong` as an explicit dependency since Ruby 3.4 removes it from the standard library.
+
+
 === 1.0.7 / 2019-08-06
 
 * Security
