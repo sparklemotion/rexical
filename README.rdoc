@@ -57,3 +57,4 @@ Public License version 2. Note that you do NOT need to follow
 LGPL for your own parser (Rexical outputs). You can provide those
 files under any licenses you want.
 
+See COPYING for more details.

@@ -1,4 +1,5 @@
 CHANGELOG.rdoc
+COPYING
 DOCUMENTATION.en.rdoc
 DOCUMENTATION.ja.rdoc
 Manifest.txt
@@ -9,6 +10,7 @@ bin/rex
 lib/rexical.rb
 lib/rexical/generator.rb
 lib/rexical/rexcmd.rb
+lib/rexical/version.rb
 sample/a.cmd
 sample/b.cmd
 sample/c.cmd

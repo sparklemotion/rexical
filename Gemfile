@@ -1,7 +1,9 @@
 source "https://rubygems.org"
 
+gemspec
+
 group :development do
-  gem "hoe"
+  gem "rake"
   gem "minitest"
   gem "rubocop"
 end
