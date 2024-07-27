@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rexical (1.0.7)
+    rexical (1.0.8)
       getoptlong
 
 GEM
